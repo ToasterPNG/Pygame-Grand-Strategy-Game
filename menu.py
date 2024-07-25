@@ -128,7 +128,7 @@ def pick_capital():
     if not server_started:
         upload_server_json()
         ws.destroy()
-        os.system("python scripts\\waitingroom.py")
+        import scripts.waitingroom
         quit()
     else:
         os.startfile("scripts\\errors\\server_started.vbs")
