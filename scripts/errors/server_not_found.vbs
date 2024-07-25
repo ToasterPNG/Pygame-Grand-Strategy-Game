@@ -1,0 +1,1 @@
+x=msgbox("Server does not exist or is unpingable" ,4096 , "Error when Joining Server")

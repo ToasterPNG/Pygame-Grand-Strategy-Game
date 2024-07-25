@@ -1,0 +1,3 @@
+PA Server 1=http://rtsonline.pythonanywhere.com/
+PA Server 2=http://rtsonline0.pythonanywhere.com/
+empty=server@no server provided
