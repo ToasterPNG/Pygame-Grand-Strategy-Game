@@ -98,7 +98,7 @@ The config json file should be structured like this:
 If you have any issues look at how other map folders do it.
 If you are having trouble getting the colors of your map_c file
 correct then I suggest using this website :
-https://www.dustfreesloutions.com/CT/CT.html
+https://www.dustfreesolutions.com/CT/CT.html
 Note in the game you can
 press the slash key when its
 your turn to check the
