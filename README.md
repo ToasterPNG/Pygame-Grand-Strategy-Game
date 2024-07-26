@@ -1,6 +1,8 @@
 # Pygame-Grand-Strategy-Game
-Engine for pygame strategy games I might use later for bigger multiplayer strategy games
+Engine for pygame strategy games I might use later for bigger multiplayer strategy games,
+
 itch page here --> https://toasterpng.itch.io/pygame-grand-strategy-game <--
+
 What the PDF says :
 
 # ─ Documentation ─
