@@ -40,7 +40,7 @@ NAME = "noname"
 server_id_file = open("data\\server_id.txt", "r")
 server_link = open("data\\current_server.txt", "r").read()
 
-NAME = open("data\\player.txt", "r").read()
+NAME = open("data\\player.txt", "r").read().strip().replace("\n", "")
 
 SERVER = int(server_id_file.read()) # 1-5
 
@@ -57,7 +57,42 @@ MapColors = pygame.transform.scale(MapColors, (WIDTH - 200, 500))
 MapOutline = pygame.image.load(f"maps/{MAP}/{MAP}_o.png").convert_alpha()
 MapOutline = pygame.transform.scale(MapOutline, (WIDTH - 200, 500))
 
+# could make this a for loop but i nono want to use exec command so much anymore
+
+if os.path.exists("assets/interface/0.png"):
+    flag_0 = pygame.image.load("assets/interface/0.png").convert()
+    flag_0 = pygame.transform.scale(flag_0, (640 // 7, 384 // 7))
+
+    flag_0.set_alpha(180)
+
+if os.path.exists("assets/interface/1.png"):
+    flag_1 = pygame.image.load("assets/interface/1.png").convert()
+    flag_1 = pygame.transform.scale(flag_1, (640 // 7, 384 // 7))
+
+    flag_1.set_alpha(180)
+
+if os.path.exists("assets/interface/2.png"):
+    flag_2 = pygame.image.load("assets/interface/2.png").convert()
+    flag_2 = pygame.transform.scale(flag_2, (640 // 7, 384 // 7))
+
+    flag_2.set_alpha(180)
+
+if os.path.exists("assets/interface/3.png"):
+    flag_3 = pygame.image.load("assets/interface/3.png").convert()
+    flag_3 = pygame.transform.scale(flag_3, (640 // 7, 384 // 7))
+
+    flag_3.set_alpha(180)
+
+if os.path.exists("assets/interface/4.png"):
+    flag_4 = pygame.image.load("assets/interface/4.png").convert()
+    flag_4 = pygame.transform.scale(flag_4, (640 // 7, 384 // 7))
+
+    flag_4.set_alpha(180)
+
 Main_Cursor = pygame.image.load("assets/interface/cursor/cursor.png").convert_alpha()
+Fort_Cursor = pygame.image.load("assets/interface/cursor/cursor_build_fort.png").convert_alpha()
+
+current_cursor = Main_Cursor
 
 Flag = pygame.image.load("assets/interface/flag.png").convert()
 Flag = pygame.transform.scale(Flag, (640 // 4, 384 // 4))
@@ -779,6 +814,7 @@ while True:
 
                 if flagged:
                     
+                    
 
                     if turn_pls == players_in_server:
                         turn = '0'
@@ -816,6 +852,7 @@ while True:
             
             if Capture_Button_Rect.collidepoint((mx, my)) and int(turn) == player_id:
                 if flagged:
+                    
 
                     if turn_pls == players_in_server:
                         turn = '0'
@@ -863,8 +900,10 @@ while True:
             elif Fort_Button_Rect.collidepoint((mx, my)) and int(turn) == player_id:
                 if not placing_forts:
                     placing_forts = True
+                    current_cursor = Fort_Cursor
                 else:
                     placing_forts = False
+                    current_cursor = Main_Cursor
 
             elif Map_Rect.collidepoint((mx, my)):
                 if not placing_forts:
@@ -890,7 +929,7 @@ while True:
                             open_capital = True
                                 
                             flagged = True
-                else:
+                elif int(turn) == player_id:
                     
                     flagged_prov = province_to_draw - 1
                     no_fort_flag = False
@@ -927,6 +966,9 @@ while True:
                                 turn = '0'
                             else:
                                 turn = str(int(turn) + 1)
+
+                            placing_forts = False
+                            current_cursor = Main_Cursor
 
                             update_map_json(None, turn)
                             upload_map_json()
@@ -1008,6 +1050,7 @@ while True:
             
             screen_surf.blit(province_hover, map_pos)
 
+    thistoexec = ""
     
     if draw_province and int(turn) == player_id: # Hovering Over A Province
             
@@ -1044,6 +1087,15 @@ while True:
             if not placing_forts:
                 pygame.transform.threshold(province_hover, province_hover,(255, 255, 255), (0,0,0,0), hover_province_color, 1, None, True)
                 screen_surf.blit(province_hover, map_pos)
+
+                countrys_list = list(countrys)
+
+                print(countrys_list, province_to_draw)
+
+                for country in countrys_list:
+                    if province_to_draw - 1 in countrys[country]:
+                        if countrys_list.index(country) != player_id:
+                            thistoexec = f"screen_surf.blit(flag_{countrys_list.index(country)}, (mx + 20, my + 20))"
             else:
                 
                 if province_to_draw - 1 in annexed_provinces:
@@ -1157,8 +1209,9 @@ while True:
 
 
     screen_surf.blit(Flag, (0, 0))
+    exec(thistoexec)
 
-    screen_surf.blit(Main_Cursor, (mx, my))
+    screen_surf.blit(current_cursor, (mx, my))
     
     
     screen.blit(pygame.transform.scale(screen_surf, screen.get_rect().size), (0, 0))
