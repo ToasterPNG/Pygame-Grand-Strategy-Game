@@ -1,7 +1,14 @@
 from pygame.locals import *
 import os
 
-def load_map(MAP):
+
+
+print("\nMap Name")
+
+MAP = input(" --> ")
+
+os.chdir("..")
+if MAP in os.listdir("maps"):
     import pygame, time, sys, json
 
     pygame.init()
@@ -90,13 +97,15 @@ def load_map(MAP):
 
     border_province_color = (70, 190, 15)
 
+    countrys = {}
+
     provinces = {
         # 1: (255, 0, 0), map_provinces_mask, map_province, rect, border_rect
     }
 
     province_to_draw = None
 
-    debugging = False
+    debugging = True
     flagged = False
 
     # FUNCTIONS #
@@ -245,18 +254,18 @@ def load_map(MAP):
                     province_borders_to_draw = borders[province - 1]
 
 
-        if debugging: # aiaiai only for the debuggeringers
-            for prov in annexed_provinces:
-                for province_id in borders[prov]:
-                    if province_id not in annexed_provinces:
+        # if debugging: # aiaiai only for the debuggeringers
+        #     for prov in annexed_provinces:
+        #         for province_id in borders[prov]:
+        #             if province_id not in annexed_provinces:
                         
-                        #province_id += 1
-                        bordering_province_hover = provinces[province_id + 1][2].copy().convert_alpha()
-                        bordering_province_hover.set_alpha(120)
+        #                 #province_id += 1
+        #                 bordering_province_hover = provinces[province_id + 1][2].copy().convert_alpha()
+        #                 bordering_province_hover.set_alpha(120)
                     
-                        pygame.transform.threshold(bordering_province_hover, bordering_province_hover,(255, 255, 255), (0,0,0,0), border_province_color, 1, None, True)
+        #                 pygame.transform.threshold(bordering_province_hover, bordering_province_hover,(255, 255, 255), (0,0,0,0), border_province_color, 1, None, True)
                     
-                        screen_surf.blit(bordering_province_hover, map_pos)
+        #                 screen_surf.blit(bordering_province_hover, map_pos)
 
 
 
@@ -353,11 +362,5 @@ def load_map(MAP):
         pygame.display.flip()
 
         clock.tick(FPS)
-
-print("\nMap Name")
-
-x = input(" --> ")
-
-os.chdir("..")
-if x in os.listdir("maps"):
-    load_map(x)
+else:
+    print("Invalid Map Name (check maps folder)")
